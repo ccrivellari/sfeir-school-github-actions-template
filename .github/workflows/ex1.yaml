@@ -15,8 +15,7 @@ jobs:
         with:
           node-version: 'lts/*'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm test
+      - name: Install dependencies and run tests
+        run: |
+          npm install
+          npm test
