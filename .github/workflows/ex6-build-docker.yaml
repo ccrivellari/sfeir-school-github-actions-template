@@ -1,0 +1,36 @@
+name: build docker
+on: 
+  pull_request:
+  push:
+    branches: 
+      - main
+
+jobs:
+  run-npm-install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: run install
+        shell: bash
+        run: |
+          npm install
+          npm test
+
+  build-docker:
+    needs: run-npm-install
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: build docker image
+        run: |
+          docker build -t ${{ github.sha }} .
