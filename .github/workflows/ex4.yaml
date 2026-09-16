@@ -1,0 +1,17 @@
+name: Exercise 4 Caller
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-default-node:
+    uses: ./.github/workflows/reusable_node.yaml
+
+  test-custom-node:
+    uses: ./.github/workflows/reusable_node.yaml
+    with:
+      node-version: '20'

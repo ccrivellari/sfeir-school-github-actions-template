@@ -1,0 +1,31 @@
+name: Reusable Node Workflow
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: 'Node.js version to target'
+        required: false
+        default: 'lts/*'
+        type: string
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Print Node version
+        run: node -v
+
+      - name: Install dependencies & test
+        shell: bash
+        run: |
+          npm install
+          npm test
